@@ -26,7 +26,7 @@ export default class PublisherS3 extends PublisherStatic<PublisherS3Config> {
   name = 's3';
 
   private s3KeySafe = (key: string) => {
-    return key.replace(/@/g, '_').replace(/\//g, '_');
+      throw new Error("STUB");
   };
 
   async publish({
@@ -43,15 +43,7 @@ export default class PublisherS3 extends PublisherStatic<PublisherS3Config> {
 
     for (const makeResult of makeResults) {
       artifacts.push(
-        ...makeResult.artifacts.map((artifact) => ({
-          path: artifact,
-          keyPrefix:
-            this.config.folder || this.s3KeySafe(makeResult.packageJSON.name),
-          platform: makeResult.platform,
-          arch: makeResult.arch,
-          isReleaseFile:
-            path.basename(artifact, path.extname(artifact)) === 'RELEASES',
-        })),
+        ...makeResult.artifacts.map((artifact) => { throw new Error("STUB"); }),
       );
     }
 
@@ -73,42 +65,7 @@ export default class PublisherS3 extends PublisherStatic<PublisherS3Config> {
     updateStatusLine();
     await Promise.all(
       artifacts.map(async (artifact) => {
-        d('uploading:', artifact.path);
-        const params: PutObjectCommandInput = {
-          Body: fs.createReadStream(artifact.path),
-          Bucket: this.config.bucket,
-          Key: this.keyForArtifact(artifact),
-        };
-        if (!this.config.omitAcl) {
-          params.ACL = this.config.public ? 'public-read' : 'private';
-        }
-        // Cache-Control must be an integer number of seconds to cache and should not be negative.
-        if (
-          artifact.isReleaseFile &&
-          typeof this.config.releaseFileCacheControlMaxAge !== 'undefined' &&
-          Number.isInteger(this.config.releaseFileCacheControlMaxAge) &&
-          this.config.releaseFileCacheControlMaxAge >= 0
-        ) {
-          params.CacheControl = `max-age=${this.config.releaseFileCacheControlMaxAge}`;
-        }
-        const uploader = new Upload({
-          client: s3Client,
-          leavePartsOnError: true,
-          params,
-        });
-
-        uploader.on('httpUploadProgress', (progress: Progress) => {
-          if (progress.total) {
-            const percentage = `${Math.round(((progress.loaded || 0) / progress.total) * 100)}%`;
-            d(
-              `Upload Progress (${path.basename(artifact.path)}) ${percentage}`,
-            );
-          }
-        });
-
-        await uploader.done();
-        uploaded += 1;
-        updateStatusLine();
+          throw new Error("STUB");
       }),
     );
   }

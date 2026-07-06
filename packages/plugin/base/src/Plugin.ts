@@ -20,18 +20,14 @@ export default abstract class Plugin<C> implements IForgePlugin {
   _resolvedHooks: ForgeMultiHookMap = {};
 
   constructor(public config: C) {
-    Object.defineProperty(this, '__isElectronForgePlugin', {
-      value: true,
-      enumerable: false,
-      configurable: false,
-    });
+      throw new Error("STUB");
   }
 
   init(_dir: string, _config: ResolvedForgeConfig): void {
     // This logic ensures that we only call getHooks once regardless of how many
     // times we trip hook logic in the PluginInterface.
     this._resolvedHooks = this.getHooks();
-    this.getHooks = () => this._resolvedHooks;
+    this.getHooks = () => { throw new Error("STUB"); };
   }
 
   getHooks(): ForgeMultiHookMap {
@@ -39,7 +35,7 @@ export default abstract class Plugin<C> implements IForgePlugin {
   }
 
   async startLogic(_startOpts: StartOptions): Promise<StartResult> {
-    return false;
+      throw new Error("STUB");
   }
 }
 
@@ -65,7 +61,7 @@ export const namedHookWithTaskFn = <Hook extends ForgeHookName>(
     this: ForgeListrTask<any> | null,
     ...args: any[]
   ) {
-    return (hookFn as any)(this, ...args);
+      throw new Error("STUB");
   }
   const fn = namedHookWithTaskInner as any;
   fn.__hookName = name;

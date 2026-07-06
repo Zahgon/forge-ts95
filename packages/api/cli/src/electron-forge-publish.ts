@@ -27,21 +27,6 @@ program
   .option('--from-dry-run', 'Publish artifacts from the last saved dry run.')
   .allowUnknownOption(true)
   .action(async (targetDir) => {
-    const dir = resolveWorkingDir(targetDir);
-    const options = program.opts();
-
-    initializeProxy();
-
-    const publishOpts: PublishOptions = {
-      dir,
-      interactive: true,
-      dryRun: options.dryRun,
-      dryRunResume: options.fromDryRun,
-    };
-    if (options.target) publishOpts.publishTargets = options.target.split(',');
-
-    publishOpts.makeOptions = await getMakeOptions();
-
-    await api.publish(publishOpts);
+      throw new Error("STUB");
   })
   .parse(process.argv);

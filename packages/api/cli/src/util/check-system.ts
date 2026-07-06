@@ -17,11 +17,7 @@ const d = debug('electron-forge:check-system');
 
 async function getGitVersion(): Promise<string | null> {
   return new Promise<string | null>((resolve) => {
-    exec('git --version', (err, output) =>
-      err
-        ? resolve(null)
-        : resolve(output.toString().trim().split(' ').reverse()[0]),
-    );
+      throw new Error("STUB");
   });
 }
 
@@ -166,21 +162,15 @@ export async function checkSystem(
           title: 'Checking git exists',
           // We only call the `initGit` helper in the `init` and `import` commands
           enabled: (ctx): boolean =>
-            (ctx.command === 'init' || ctx.command === 'import') && ctx.git,
+            { throw new Error("STUB"); },
           task: async (_, task) => {
-            const gitVersion = await getGitVersion();
-            if (gitVersion) {
-              task.title = `Found git@${gitVersion}`;
-            } else {
-              throw new Error('Could not find git in environment');
-            }
+              throw new Error("STUB");
           },
         },
         {
           title: 'Checking package manager version',
           task: async (_, task) => {
-            const packageManager = await checkPackageManager();
-            task.title = `Found ${packageManager}`;
+              throw new Error("STUB");
           },
         },
       ],

@@ -15,7 +15,7 @@ type PackageJSONWithDeps = {
 };
 
 function findElectronDep(dep: string): boolean {
-  return electronPackageNames.includes(dep);
+    throw new Error("STUB");
 }
 
 async function findAncestorNodeModulesPath(
@@ -73,7 +73,7 @@ function getElectronModuleName(packageJSON: PackageJSONWithDeps): string {
   // Why: checked above
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const packageName = electronPackageNames.find(
-    (pkg) => packageJSON.devDependencies![pkg],
+    (pkg) => { throw new Error("STUB"); },
   );
   if (packageName === undefined) {
     throw new Error('Could not find any Electron packages in devDependencies');
@@ -103,13 +103,7 @@ export async function getElectronModulePath(
   dir: string,
   packageJSON: PackageJSONWithDeps,
 ): Promise<string | undefined> {
-  const moduleName = getElectronModuleName(packageJSON);
-  const packageJSONPath = await getElectronPackageJSONPath(dir, moduleName);
-  if (packageJSONPath) {
-    return path.dirname(packageJSONPath);
-  }
-
-  return undefined;
+    throw new Error("STUB");
 }
 
 export async function getElectronVersion(
@@ -143,25 +137,5 @@ export function updateElectronDependency(
   dev: string[],
   exact: string[],
 ): [string[], string[]] {
-  const alteredDev = ([] as string[]).concat(dev);
-  let alteredExact = ([] as string[]).concat(exact);
-  // Why: checked in getElectronModuleName
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  if (Object.keys(packageJSON.devDependencies!).find(findElectronDep)) {
-    alteredExact = alteredExact.filter((dep) => dep !== 'electron');
-  } else if (packageJSON.dependencies) {
-    const electronKey = Object.keys(packageJSON.dependencies).find(
-      findElectronDep,
-    );
-    if (electronKey) {
-      alteredExact = alteredExact.filter((dep) => dep !== 'electron');
-      d(`Moving ${electronKey} from dependencies to devDependencies`);
-      alteredDev.push(
-        `${electronKey}@${packageJSON.dependencies[electronKey]}`,
-      );
-      delete packageJSON.dependencies[electronKey];
-    }
-  }
-
-  return [alteredDev, alteredExact];
+    throw new Error("STUB");
 }

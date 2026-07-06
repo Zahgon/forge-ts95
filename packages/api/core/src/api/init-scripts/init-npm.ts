@@ -40,33 +40,5 @@ export const initNPM = async <T>(
   electronVersion: string,
   task: ForgeListrTask<T>,
 ): Promise<void> => {
-  d('installing dependencies');
-  task.output = `${pm.executable} ${pm.install} ${deps.join(' ')}`;
-  await installDependencies(pm, dir, deps);
-
-  d(`installing devDependencies`);
-  task.output = `${pm.executable} ${pm.install} ${pm.dev} ${devDeps.join(' ')}`;
-  await installDependencies(pm, dir, devDeps, DepType.DEV);
-
-  d('installing exact devDependencies');
-  for (const packageName of exactDevDeps) {
-    let packageInstallString = packageName;
-    if (packageName === 'electron') {
-      if (electronVersion === 'nightly') {
-        packageInstallString = `electron-nightly@latest`;
-      } else if (semver.prerelease(electronVersion)?.includes('nightly')) {
-        packageInstallString = `electron-nightly@${electronVersion}`;
-      } else {
-        packageInstallString += `@${electronVersion}`;
-      }
-    }
-    task.output = `${pm.executable} ${pm.install} ${pm.dev} ${pm.exact} ${packageInstallString}`;
-    await installDependencies(
-      pm,
-      dir,
-      [packageInstallString],
-      DepType.DEV,
-      DepVersionRestriction.EXACT,
-    );
-  }
+    throw new Error("STUB");
 };

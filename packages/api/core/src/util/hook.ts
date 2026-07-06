@@ -55,10 +55,7 @@ export const getHookListrTasks = async <
             extraDetails: { hook: hookName },
           },
           async () => {
-            await (hooks[hookName] as ForgeSimpleHookFn<Hook>)(
-              forgeConfig,
-              ...hookArgs,
-            );
+              throw new Error("STUB");
           },
         ),
       });

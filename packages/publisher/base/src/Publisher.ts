@@ -45,18 +45,11 @@ export default abstract class Publisher<C> implements IForgePublisher {
     public config: C,
     protected platformsToPublishOn?: ForgePlatform[],
   ) {
-    this.config = config;
-    Object.defineProperty(this, '__isElectronForgePublisher', {
-      value: true,
-      enumerable: false,
-      configurable: false,
-    });
+      throw new Error("STUB");
   }
 
   get platforms(): ForgePlatform[] {
-    if (this.platformsToPublishOn) return this.platformsToPublishOn;
-    if (this.defaultPlatforms) return this.defaultPlatforms;
-    return ['win32', 'linux', 'darwin', 'mas'];
+      throw new Error("STUB");
   }
 
   /**

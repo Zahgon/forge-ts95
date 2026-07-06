@@ -5,6 +5,6 @@ import { EntryPointPluginConfig } from '../Config';
 export default class EntryPointPreloadPlugin extends PluginBase<EntryPointPluginConfig> {
   name = this.config.name;
   apply() {
-    // noop
+      throw new Error("STUB");
   }
 }

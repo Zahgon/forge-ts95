@@ -17,19 +17,6 @@ program
   .option('-a, --arch [arch]', 'Target build architecture')
   .option('-p, --platform [platform]', 'Target build platform')
   .action(async (dir) => {
-    const workingDir = resolveWorkingDir(dir);
-
-    const options = program.opts();
-
-    initializeProxy();
-
-    const packageOpts: PackageOptions = {
-      dir: workingDir,
-      interactive: true,
-    };
-    if (options.arch) packageOpts.arch = options.arch;
-    if (options.platform) packageOpts.platform = options.platform;
-
-    await api.package(packageOpts);
+      throw new Error("STUB");
   })
   .parse(process.argv);

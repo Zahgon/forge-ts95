@@ -14,60 +14,7 @@ class WebpackTemplate extends BaseTemplate {
     directory: string,
     options: InitTemplateOptions,
   ): Promise<ForgeListrTaskDefinition[]> {
-    const superTasks = await super.initializeTemplate(directory, options);
-    return [
-      ...superTasks,
-      {
-        title: 'Setting up Forge configuration',
-        task: async () => {
-          await this.copyTemplateFile(directory, 'forge.config.js');
-        },
-      },
-      {
-        title: 'Setting up webpack configuration',
-        task: async () => {
-          await this.copyTemplateFile(directory, 'webpack.main.config.js');
-          await this.copyTemplateFile(directory, 'webpack.renderer.config.js');
-          await this.copyTemplateFile(directory, 'webpack.rules.js');
-          await this.copyTemplateFile(
-            path.join(directory, 'src'),
-            'renderer.js',
-          );
-          await this.copyTemplateFile(
-            path.join(directory, 'src'),
-            'preload.js',
-          );
-
-          await this.updateFileByLine(
-            path.resolve(directory, 'src', 'index.js'),
-            (line) => {
-              if (line.includes('mainWindow.loadFile'))
-                return '  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);';
-              if (line.includes('preload: '))
-                return '      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,';
-              return line;
-            },
-            path.resolve(directory, 'src', 'main.js'),
-          );
-
-          await this.updateFileByLine(
-            path.resolve(directory, 'src', 'index.html'),
-            (line) => {
-              if (line.includes('link rel="stylesheet"')) return '';
-              return line;
-            },
-          );
-
-          // update package.json entry point
-          const pjPath = path.resolve(directory, 'package.json');
-          const currentPJ = await fs.readJson(pjPath);
-          currentPJ.main = '.webpack/main';
-          await fs.writeJson(pjPath, currentPJ, {
-            spaces: 2,
-          });
-        },
-      },
-    ];
+      throw new Error("STUB");
   }
 }
 

@@ -20,7 +20,7 @@ export default class PublisherGCS extends PublisherStatic<PublisherGCSConfig> {
   name = 'gcs';
 
   private GCSKeySafe = (key: string) => {
-    return key.replace(/@/g, '_').replace(/\//g, '_');
+      throw new Error("STUB");
   };
 
   async publish({
@@ -44,12 +44,7 @@ export default class PublisherGCS extends PublisherStatic<PublisherGCSConfig> {
 
     for (const makeResult of makeResults) {
       artifacts.push(
-        ...makeResult.artifacts.map((artifact) => ({
-          path: artifact,
-          keyPrefix: folder || this.GCSKeySafe(makeResult.packageJSON.name),
-          platform: makeResult.platform,
-          arch: makeResult.arch,
-        })),
+        ...makeResult.artifacts.map((artifact) => { throw new Error("STUB"); }),
       );
     }
 
@@ -68,18 +63,7 @@ export default class PublisherGCS extends PublisherStatic<PublisherGCSConfig> {
     updateStatusLine();
     await Promise.all(
       artifacts.map(async (artifact) => {
-        d('uploading:', artifact.path);
-        await bucket.upload(artifact.path, {
-          metadata: this.config.metadataGenerator
-            ? this.config.metadataGenerator(artifact)
-            : {},
-          gzip: true,
-          destination: this.keyForArtifact(artifact),
-          ...uploadOptions,
-        });
-
-        uploaded += 1;
-        updateStatusLine();
+          throw new Error("STUB");
       }),
     );
   }

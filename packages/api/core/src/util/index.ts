@@ -22,7 +22,7 @@ export default class ForgeUtils {
    * `fromBuildIdentifier({ stable: 'App', beta: 'App Beta' })`
    */
   fromBuildIdentifier<T>(map: BuildIdentifierMap<T>): BuildIdentifierConfig<T> {
-    return fromBuildIdentifier(map);
+      throw new Error("STUB");
   }
 
   getElectronVersion = getElectronVersion;
@@ -35,13 +35,13 @@ export default class ForgeUtils {
    * Dir should point to the folder containing the app.
    */
   registerForgeConfigForDirectory(dir: string, config: ForgeConfig): void {
-    return registerForgeConfigForDirectory(dir, config);
+      throw new Error("STUB");
   }
 
   /**
    * Unregister a forge config previously registered with registerForgeConfigForDirectory.
    */
   unregisterForgeConfigForDirectory(dir: string): void {
-    return unregisterForgeConfigForDirectory(dir);
+      throw new Error("STUB");
   }
 }

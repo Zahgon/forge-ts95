@@ -24,97 +24,18 @@ export class BaseTemplate implements ForgeTemplate {
   public requiredForgeVersion = currentForgeVersion;
 
   get dependencies(): string[] {
-    const packageJSONPath = path.join(this.templateDir, 'package.json');
-    if (fs.pathExistsSync(packageJSONPath)) {
-      const deps = fs.readJsonSync(packageJSONPath).dependencies;
-      if (deps) {
-        return Object.entries(deps).map(([packageName, version]) => {
-          if (version === 'ELECTRON_FORGE/VERSION') {
-            version = `^${currentForgeVersion}`;
-          }
-          return `${packageName}@${version}`;
-        });
-      }
-    }
-
-    return [];
+      throw new Error("STUB");
   }
 
   get devDependencies(): string[] {
-    const packageJSONPath = path.join(this.templateDir, 'package.json');
-    if (fs.pathExistsSync(packageJSONPath)) {
-      const packageDevDeps = fs.readJsonSync(packageJSONPath).devDependencies;
-      if (packageDevDeps) {
-        return Object.entries(packageDevDeps).map(([packageName, version]) => {
-          if (version === 'ELECTRON_FORGE/VERSION') {
-            version = `^${currentForgeVersion}`;
-          }
-          return `${packageName}@${version}`;
-        });
-      }
-    }
-
-    return [];
+      throw new Error("STUB");
   }
 
   public async initializeTemplate(
     directory: string,
     { copyCIFiles }: InitTemplateOptions,
   ): Promise<ForgeListrTaskDefinition[]> {
-    return [
-      {
-        title: 'Copying starter files',
-        task: async () => {
-          const pm = await resolvePackageManager();
-          d('creating directory:', path.resolve(directory, 'src'));
-          await fs.mkdirs(path.resolve(directory, 'src'));
-          const rootFiles = ['_gitignore', 'forge.config.js'];
-
-          if (pm.executable === 'pnpm') {
-            rootFiles.push('_npmrc');
-          } else if (
-            // Support Yarn 2+ by default by initializing with nodeLinker: node-modules
-            pm.executable === 'yarn' &&
-            pm.version &&
-            semver.gte(pm.version, '2.0.0')
-          ) {
-            rootFiles.push('_yarnrc.yml');
-          }
-
-          if (copyCIFiles) {
-            d(
-              `Copying CI files is currently not supported - this will be updated in a later version of Forge`,
-            );
-          }
-
-          const srcFiles = [
-            'index.css',
-            'index.js',
-            'index.html',
-            'preload.js',
-          ];
-
-          for (const file of rootFiles) {
-            await this.copy(
-              path.resolve(tmplDir, file),
-              path.resolve(directory, file.replace(/^_/, '.')),
-            );
-          }
-          for (const file of srcFiles) {
-            await this.copy(
-              path.resolve(tmplDir, file),
-              path.resolve(directory, 'src', file),
-            );
-          }
-        },
-      },
-      {
-        title: 'Initializing package.json',
-        task: async () => {
-          await this.initializePackageJSON(directory);
-        },
-      },
-    ];
+      throw new Error("STUB");
   }
 
   async copy(source: string, target: string): Promise<void> {
@@ -123,43 +44,11 @@ export class BaseTemplate implements ForgeTemplate {
   }
 
   async copyTemplateFile(destDir: string, basename: string): Promise<void> {
-    await this.copy(
-      path.join(this.templateDir, basename),
-      path.resolve(destDir, basename),
-    );
+      throw new Error("STUB");
   }
 
   async initializePackageJSON(directory: string): Promise<void> {
-    const packageJSON = await fs.readJson(
-      path.resolve(__dirname, '../tmpl/package.json'),
-    );
-    packageJSON.productName = packageJSON.name = path
-      .basename(directory)
-      .toLowerCase();
-    packageJSON.author = await determineAuthor(directory);
-
-    const pm = await resolvePackageManager();
-
-    if (pm.executable === 'pnpm') {
-      d('Adding Electron dependencies to `onlyBuiltDependencies`');
-      packageJSON.pnpm = {
-        onlyBuiltDependencies: ['electron', 'electron-winstaller'],
-      };
-    } else if (
-      pm.executable === 'yarn' &&
-      typeof pm.version === 'string' &&
-      semver.gte(pm.version, '2.0.0')
-    ) {
-      d('Detected Yarn 2+, adding packageManager field to package.json');
-      packageJSON.packageManager = `yarn@${pm.version}`;
-    }
-
-    packageJSON.scripts.lint = 'echo "No linting configured"';
-
-    d('writing package.json to:', directory);
-    await fs.writeJson(path.resolve(directory, 'package.json'), packageJSON, {
-      spaces: 2,
-    });
+      throw new Error("STUB");
   }
 
   async updateFileByLine(
@@ -167,14 +56,7 @@ export class BaseTemplate implements ForgeTemplate {
     lineHandler: (line: string) => string,
     outputPath?: string | undefined,
   ): Promise<void> {
-    const fileContents = (await fs.readFile(inputPath, 'utf8'))
-      .split('\n')
-      .map(lineHandler)
-      .join('\n');
-    await fs.writeFile(outputPath || inputPath, fileContents);
-    if (outputPath !== undefined) {
-      await fs.remove(inputPath);
-    }
+      throw new Error("STUB");
   }
 }
 

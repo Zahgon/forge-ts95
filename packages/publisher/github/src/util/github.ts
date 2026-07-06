@@ -18,30 +18,7 @@ export default class GitHub {
     requireAuth = false,
     options: OctokitOptions = {},
   ) {
-    const noOp = () => {
-      /* Intentionally does nothing */
-    };
-
-    this.options = {
-      ...options,
-      log: {
-        debug: logDebug.enabled ? logDebug : noOp,
-        error: console.error,
-        info: logInfo.enabled ? logInfo : noOp,
-        warn: console.warn,
-      },
-      userAgent: 'Electron Forge',
-    };
-
-    if (authToken) {
-      this.token = authToken;
-    } else if (process.env.GITHUB_TOKEN) {
-      this.token = process.env.GITHUB_TOKEN;
-    } else if (requireAuth) {
-      throw new Error(
-        'Please set GITHUB_TOKEN in your environment to access these features',
-      );
-    }
+      throw new Error("STUB");
   }
 
   getGitHub(): Octokit {

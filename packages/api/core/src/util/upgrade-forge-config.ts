@@ -48,23 +48,7 @@ type ForgePackageJSON = Record<string, unknown> & {
 function mapMakeTargets(
   forge5Config: Forge5Config,
 ): Map<string, ForgePlatform[]> {
-  const makeTargets = new Map<string, ForgePlatform[]>();
-  if (forge5Config.make_targets) {
-    for (const [platform, targets] of Object.entries(
-      forge5Config.make_targets as MakeTargets,
-    )) {
-      for (const target of targets) {
-        let platforms = makeTargets.get(target);
-        if (platforms === undefined) {
-          platforms = [];
-          makeTargets.set(target, platforms);
-        }
-        platforms.push(platform as ForgePlatform);
-      }
-    }
-  }
-
-  return makeTargets;
+    throw new Error("STUB");
 }
 
 const forge5MakerMappings = new Map<Forge5ConfigKey, string>([
@@ -84,29 +68,7 @@ const forge5MakerMappings = new Map<Forge5ConfigKey, string>([
 function generateForgeMakerConfig(
   forge5Config: Forge5Config,
 ): IForgeResolvableMaker[] {
-  const makeTargets = mapMakeTargets(forge5Config);
-  const makers: IForgeResolvableMaker[] = [];
-
-  for (const [forge5Key, makerType] of forge5MakerMappings) {
-    const config = forge5Config[forge5Key];
-    if (config) {
-      makers.push({
-        name: `@electron-forge/maker-${makerType}`,
-        config: forge5Config[forge5Key],
-        platforms: makeTargets.get(makerType) || [],
-      } as IForgeResolvableMaker);
-    }
-  }
-
-  const zipPlatforms = makeTargets.get('zip');
-  if (zipPlatforms) {
-    makers.push({
-      name: '@electron-forge/maker-zip',
-      platforms: zipPlatforms,
-    } as IForgeResolvableMaker);
-  }
-
-  return makers;
+    throw new Error("STUB");
 }
 
 const forge5PublisherMappings = new Map<Forge5ConfigKey, string>([
@@ -120,13 +82,7 @@ const forge5PublisherMappings = new Map<Forge5ConfigKey, string>([
  * Transforms v5 GitHub publisher config to v6 syntax.
  */
 function transformGitHubPublisherConfig(config: GitHub5Config) {
-  const { name, owner, options, ...gitHubConfig } = config;
-  gitHubConfig.repository = { name, owner };
-  if (options) {
-    gitHubConfig.octokitOptions = options;
-  }
-
-  return gitHubConfig;
+    throw new Error("STUB");
 }
 
 /**
@@ -135,23 +91,7 @@ function transformGitHubPublisherConfig(config: GitHub5Config) {
 function generateForgePublisherConfig(
   forge5Config: Forge5Config,
 ): IForgeResolvablePublisher[] {
-  const publishers: IForgeResolvablePublisher[] = [];
-
-  for (const [forge5Key, publisherType] of forge5PublisherMappings) {
-    let config = forge5Config[forge5Key];
-    if (config) {
-      if (publisherType === 'github') {
-        config = transformGitHubPublisherConfig(config as GitHub5Config);
-      }
-      publishers.push({
-        config,
-        name: `@electron-forge/publisher-${publisherType}`,
-        platforms: null,
-      } as IForgeResolvableMaker);
-    }
-  }
-
-  return publishers;
+    throw new Error("STUB");
 }
 
 /**
@@ -160,38 +100,12 @@ function generateForgePublisherConfig(
 export default function upgradeForgeConfig(
   forge5Config: Forge5Config,
 ): ForgeConfig {
-  const forgeConfig: ForgeConfig = {} as ForgeConfig;
-
-  if (forge5Config.electronPackagerConfig) {
-    delete forge5Config.electronPackagerConfig.packageManager;
-    forgeConfig.packagerConfig = forge5Config.electronPackagerConfig;
-  }
-  if (forge5Config.electronRebuildConfig) {
-    forgeConfig.rebuildConfig = forge5Config.electronRebuildConfig;
-  }
-  forgeConfig.makers = generateForgeMakerConfig(forge5Config);
-  forgeConfig.publishers = generateForgePublisherConfig(forge5Config);
-
-  return forgeConfig;
+    throw new Error("STUB");
 }
 
 export function updateUpgradedForgeDevDeps(
   packageJSON: ForgePackageJSON,
   devDeps: string[],
 ): string[] {
-  const forgeConfig = packageJSON.config.forge;
-  devDeps = devDeps.filter((dep) => !dep.startsWith('@electron-forge/maker-'));
-  devDeps = devDeps.concat(
-    (forgeConfig.makers as IForgeResolvableMaker[]).map(
-      (maker: IForgeResolvableMaker) => siblingDep(path.basename(maker.name)),
-    ),
-  );
-  devDeps = devDeps.concat(
-    (forgeConfig.publishers as IForgeResolvablePublisher[]).map(
-      (publisher: IForgeResolvablePublisher) =>
-        siblingDep(path.basename(publisher.name)),
-    ),
-  );
-
-  return devDeps;
+    throw new Error("STUB");
 }

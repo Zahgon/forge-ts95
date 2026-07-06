@@ -5,13 +5,4 @@ type Deprecation = {
   replaceWith: (replacement: string) => void;
 };
 
-export default (what: string): Deprecation => ({
-  replaceWith: (replacement: string): void => {
-    console.warn(
-      logSymbols.warning,
-      chalk.yellow(
-        `WARNING: ${what} is deprecated, please use ${replacement} instead`,
-      ),
-    );
-  },
-});
+export default (what: string): Deprecation => { throw new Error("STUB"); };

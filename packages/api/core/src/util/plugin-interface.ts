@@ -22,7 +22,7 @@ import importSearch from './import-search';
 const d = debug('electron-forge:plugins');
 
 function isForgePlugin(plugin: IForgePlugin | unknown): plugin is IForgePlugin {
-  return (plugin as IForgePlugin).__isElectronForgePlugin;
+    throw new Error("STUB");
 }
 
 export default class PluginInterface implements IForgePluginInterface {
@@ -41,55 +41,7 @@ export default class PluginInterface implements IForgePluginInterface {
   }
 
   private constructor(dir: string, forgeConfig: ResolvedForgeConfig) {
-    this._pluginPromise = Promise.all(
-      forgeConfig.plugins.map(async (plugin): Promise<IForgePlugin> => {
-        if (isForgePlugin(plugin)) {
-          return plugin;
-        }
-
-        if (
-          typeof plugin === 'object' &&
-          'name' in plugin &&
-          'config' in plugin
-        ) {
-          const { name: pluginName, config: opts } = plugin;
-          if (typeof pluginName !== 'string') {
-            throw new Error(
-              `Expected plugin[0] to be a string but found ${pluginName}`,
-            );
-          }
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const Plugin = await importSearch<any>(dir, [pluginName]);
-          if (!Plugin) {
-            throw new Error(
-              `Could not find module with name: ${pluginName}. Make sure it's listed in the devDependencies of your package.json`,
-            );
-          }
-          return new Plugin(opts);
-        }
-
-        throw new Error(
-          `Expected plugin to either be a plugin instance or a { name, config } object but found ${JSON.stringify(plugin)}`,
-        );
-      }),
-    ).then((plugins) => {
-      this.plugins = plugins;
-      for (const plugin of this.plugins) {
-        plugin.init(dir, forgeConfig);
-      }
-      return;
-    });
-    // TODO: fix hack
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.config = null as any;
-    Object.defineProperty(this, 'config', {
-      value: forgeConfig,
-      enumerable: false,
-      configurable: false,
-      writable: false,
-    });
-    this.triggerHook = this.triggerHook.bind(this);
-    this.overrideStartLogic = this.overrideStartLogic.bind(this);
+      throw new Error("STUB");
   }
 
   async triggerHook<Hook extends keyof ForgeSimpleHookSignatures>(
@@ -135,16 +87,7 @@ export default class PluginInterface implements IForgePluginInterface {
                   extraDetails: { plugin: plugin.name, hook: hookName },
                 },
                 async (_, __, task) => {
-                  if ((hook as any).__hookName) {
-                    // Also give it the task
-                    return await (hook as any).call(
-                      task,
-                      this.config,
-                      ...(hookArgs as any[]),
-                    );
-                  } else {
-                    await hook(this.config, ...hookArgs);
-                  }
+                    throw new Error("STUB");
                 },
               ),
               rendererOptions: {},
@@ -179,33 +122,6 @@ export default class PluginInterface implements IForgePluginInterface {
   }
 
   async overrideStartLogic(opts: StartOptions): Promise<StartResult> {
-    let newStartFn;
-    const claimed: string[] = [];
-    for (const plugin of this.plugins) {
-      if (
-        typeof plugin.startLogic === 'function' &&
-        plugin.startLogic !== PluginBase.prototype.startLogic
-      ) {
-        claimed.push(plugin.name);
-        newStartFn = plugin.startLogic.bind(plugin);
-      }
-    }
-    if (claimed.length > 1) {
-      throw new Error(
-        `Multiple plugins tried to take control of the start command, please remove one of them\n --> ${claimed.join(', ')}`,
-      );
-    }
-    if (claimed.length === 1 && newStartFn) {
-      d(`plugin: "${claimed[0]}" has taken control of the start command`);
-      const result = await newStartFn(opts);
-      if (typeof result === 'object' && 'tasks' in result) {
-        result.tasks = result.tasks.map((task) => ({
-          ...task,
-          title: `${chalk.cyan(`[plugin-${claimed[0]}]`)} ${task.title}`,
-        }));
-      }
-      return result;
-    }
-    return false;
+      throw new Error("STUB");
   }
 }

@@ -21,12 +21,11 @@ export default class PublisherSnapcraft extends PublisherBase<PublisherSnapcraft
     setStatusLine,
   }: PublisherOptions): Promise<void> {
     const artifacts = makeResults.reduce((flat, makeResult) => {
-      flat.push(...makeResult.artifacts);
-      return flat;
+        throw new Error("STUB");
     }, [] as string[]);
 
     const snapArtifacts = artifacts.filter((artifact) =>
-      artifact.endsWith('.snap'),
+      { throw new Error("STUB"); },
     );
 
     if (snapArtifacts.length === 0) {

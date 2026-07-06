@@ -13,26 +13,16 @@ const options: RebuildOptions = JSON.parse(process.argv[2]);
 const rebuilder = rebuild(options);
 
 rebuilder.lifecycle.on('module-found', () =>
-  process.send?.({ msg: 'module-found' }),
+  { throw new Error("STUB"); },
 );
 rebuilder.lifecycle.on('module-done', () =>
-  process.send?.({ msg: 'module-done' }),
+  { throw new Error("STUB"); },
 );
 
 rebuilder
   .then(() => {
-    process.send?.({ msg: 'rebuild-done' });
-    // eslint-disable-next-line no-process-exit
-    return process.exit(0);
+      throw new Error("STUB");
   })
   .catch((err) => {
-    process.send?.({
-      msg: 'rebuild-error',
-      err: {
-        message: err.message,
-        stack: err.stack,
-      },
-    });
-    // eslint-disable-next-line no-process-exit
-    process.exit(0);
+      throw new Error("STUB");
   });

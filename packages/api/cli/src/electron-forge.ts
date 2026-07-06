@@ -39,32 +39,7 @@ program
   .command('publish', 'Publish the current Electron application.')
   .passThroughOptions(true)
   .hook('preSubcommand', async (_command, subcommand) => {
-    if (!process.argv.includes('--help') && !process.argv.includes('-h')) {
-      const runner = new Listr<SystemCheckContext>(
-        [
-          {
-            title: 'Checking your system',
-            task: async (ctx, task) => {
-              ctx.command = subcommand.name();
-              ctx.git = !process.argv.includes('--skip-git');
-              return await checkSystem(task);
-            },
-          },
-        ],
-        {
-          concurrent: false,
-          exitOnError: true,
-          fallbackRendererCondition:
-            Boolean(process.env.DEBUG) || Boolean(process.env.CI),
-        },
-      );
-
-      try {
-        await runner.run();
-      } catch {
-        process.exit(1);
-      }
-    }
+      throw new Error("STUB");
   });
 
 program.parse(process.argv);

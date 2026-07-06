@@ -19,14 +19,6 @@ program
     false,
   )
   .action(async (dir: string) => {
-    const workingDir = resolveWorkingDir(dir, false);
-
-    const options = program.opts();
-
-    await api.import({
-      dir: workingDir,
-      interactive: true,
-      skipGit: !!options.skipGit,
-    });
+      throw new Error("STUB");
   })
   .parse(process.argv);

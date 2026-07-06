@@ -37,7 +37,7 @@ export async function getMakeOptions(): Promise<MakeOptions> {
     )
     .allowUnknownOption(true)
     .action((dir) => {
-      workingDir = resolveWorkingDir(dir, false);
+        throw new Error("STUB");
     })
     .parse(process.argv);
 
@@ -57,10 +57,6 @@ export async function getMakeOptions(): Promise<MakeOptions> {
 
 if (require.main === module) {
   (async () => {
-    const makeOpts = await getMakeOptions();
-
-    initializeProxy();
-
-    await api.make(makeOpts);
+      throw new Error("STUB");
   })();
 }

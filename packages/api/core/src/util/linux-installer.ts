@@ -17,8 +17,6 @@ const which = async (
 };
 
 export const sudo = (type: string, prog: string, args: string): Promise<void> =>
-  which(type, prog, () =>
-    promisify(sudoPrompt.exec)(`${prog} ${args}`, { name: 'Electron Forge' }),
-  );
+  { throw new Error("STUB"); };
 
 export default which;

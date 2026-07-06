@@ -21,50 +21,5 @@ export interface ForgeTemplateDetails {
 export const findTemplate = async (
   template: string,
 ): Promise<ForgeTemplateDetails> => {
-  let foundTemplate: Omit<ForgeTemplateDetails, 'template'> | null = null;
-
-  const resolveTemplateTypes = [
-    [TemplateType.global, `electron-forge-template-${template}`],
-    [TemplateType.global, `@electron-forge/template-${template}`],
-    [TemplateType.local, `electron-forge-template-${template}`],
-    [TemplateType.local, `@electron-forge/template-${template}`],
-    [TemplateType.global, template],
-    [TemplateType.local, template],
-  ] as const;
-  for (const [templateType, moduleName] of resolveTemplateTypes) {
-    try {
-      d(`Trying ${templateType} template: ${moduleName}`);
-      let templateModulePath: string;
-      if (templateType === TemplateType.global) {
-        templateModulePath = require.resolve(moduleName, {
-          paths: [globalDirs.npm.packages, globalDirs.yarn.packages],
-        });
-      } else {
-        templateModulePath = require.resolve(moduleName);
-      }
-      foundTemplate = {
-        path: templateModulePath,
-        type: templateType,
-        name: moduleName,
-      };
-      break;
-    } catch (err) {
-      d(`Error: ${err instanceof Error ? err.message : err}`);
-    }
-  }
-  if (!foundTemplate) {
-    throw new Error(`Failed to locate custom template: "${template}".`);
-  } else {
-    d(`found template module at: ${foundTemplate.path}`);
-
-    const templateModule: PossibleModule<ForgeTemplate> = await import(
-      foundTemplate.path
-    );
-    const tmpl = templateModule.default ?? templateModule;
-
-    return {
-      ...foundTemplate,
-      template: tmpl,
-    };
-  }
+    throw new Error("STUB");
 };

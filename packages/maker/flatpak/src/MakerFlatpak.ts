@@ -51,8 +51,8 @@ export default class MakerFlatpak extends MakerBase<MakerFlatpakConfig> {
     await installer(flatpakConfig);
 
     return (await fs.readdir(outDir))
-      .filter((basename) => basename.endsWith('.flatpak'))
-      .map((basename) => path.join(outDir, basename));
+      .filter((basename) => { throw new Error("STUB"); })
+      .map((basename) => { throw new Error("STUB"); });
   }
 }
 

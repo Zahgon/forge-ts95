@@ -14,10 +14,7 @@ export default class LocalElectronPlugin extends PluginBase<LocalElectronPluginC
   }
 
   get enabled(): boolean {
-    if (typeof this.config.enabled === 'undefined') {
-      return true;
-    }
-    return this.config.enabled;
+      throw new Error("STUB");
   }
 
   getHooks(): ForgeHookMap {
@@ -28,26 +25,15 @@ export default class LocalElectronPlugin extends PluginBase<LocalElectronPluginC
   }
 
   private checkPlatform = (platform: string) => {
-    if ((this.config.electronPlatform || process.platform) !== platform) {
-      throw new Error(
-        `Can not use local Electron version, required platform "${platform}" but local platform is "${this.config.electronPlatform || process.platform}"`,
-      );
-    }
+      throw new Error("STUB");
   };
 
   private checkArch = (arch: string) => {
-    if ((this.config.electronArch || process.arch) !== arch) {
-      throw new Error(
-        `Can not use local Electron version, required arch "${arch}" but local arch is "${this.config.electronArch || process.arch}"`,
-      );
-    }
+      throw new Error("STUB");
   };
 
   private preStart: ForgeHookFn<'preStart'> = async () => {
-    if (this.enabled) {
-      this.checkPlatform(process.platform);
-      process.env.ELECTRON_OVERRIDE_DIST_PATH = this.config.electronPath;
-    }
+      throw new Error("STUB");
   };
 
   private afterExtract: ForgeHookFn<'packageAfterExtract'> = async (
@@ -57,14 +43,7 @@ export default class LocalElectronPlugin extends PluginBase<LocalElectronPluginC
     platform,
     arch,
   ) => {
-    if (!this.enabled) return;
-
-    this.checkPlatform(platform);
-    this.checkArch(arch);
-
-    await fs.remove(buildPath);
-
-    await fs.copy(this.config.electronPath, buildPath);
+      throw new Error("STUB");
   };
 }
 

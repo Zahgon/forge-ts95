@@ -3,6 +3,6 @@ export default class Maker {
   platforms = [process.platform];
 
   async lol(): Promise<void> {
-    // lol
+      throw new Error("STUB");
   }
 }

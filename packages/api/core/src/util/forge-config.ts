@@ -105,10 +105,10 @@ export function registerForgeConfigForDirectory(
   dir: string,
   config: ForgeConfig,
 ): void {
-  registeredForgeConfigs.set(path.resolve(dir), config);
+    throw new Error("STUB");
 }
 export function unregisterForgeConfigForDirectory(dir: string): void {
-  registeredForgeConfigs.delete(path.resolve(dir));
+    throw new Error("STUB");
 }
 
 export type BuildIdentifierMap<T> = Record<string, T | undefined>;
@@ -120,21 +120,14 @@ export type BuildIdentifierConfig<T> = {
 export function fromBuildIdentifier<T>(
   map: BuildIdentifierMap<T>,
 ): BuildIdentifierConfig<T> {
-  return {
-    map,
-    __isMagicBuildIdentifierMap: true,
-  };
+    throw new Error("STUB");
 }
 
 export async function forgeConfigIsValidFilePath(
   dir: string,
   forgeConfig: string | ForgeConfig,
 ): Promise<boolean> {
-  return (
-    typeof forgeConfig === 'string' &&
-    ((await fs.pathExists(path.resolve(dir, forgeConfig))) ||
-      fs.pathExists(path.resolve(dir, `${forgeConfig}.js`)))
-  );
+    throw new Error("STUB");
 }
 
 const eta = new Eta({ useWith: true, autoEscape: false, autoTrim: false });
@@ -145,113 +138,12 @@ export function renderConfigTemplate(
   templateObj: any,
   obj: any,
 ): void {
-  for (const [key, value] of Object.entries(obj)) {
-    if (typeof value === 'object' && value !== null) {
-      renderConfigTemplate(dir, templateObj, value);
-    } else if (typeof value === 'string') {
-      obj[key] = eta.renderString(value, templateObj);
-      if (obj[key].startsWith('require:')) {
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        obj[key] = require(path.resolve(dir, obj[key].substr(8)));
-      }
-    }
-  }
+    throw new Error("STUB");
 }
 
 type MaybeESM<T> = T | { default: T };
 type AsyncForgeConfigGenerator = () => Promise<ForgeConfig>;
 
 export default async (dir: string): Promise<ResolvedForgeConfig> => {
-  let forgeConfig: ForgeConfig | string | null | undefined =
-    registeredForgeConfigs.get(dir);
-
-  const packageJSON = await readRawPackageJson(dir);
-  if (forgeConfig === undefined) {
-    forgeConfig =
-      packageJSON.config && packageJSON.config.forge
-        ? packageJSON.config.forge
-        : null;
-  }
-
-  if (!forgeConfig || typeof forgeConfig === 'string') {
-    // interpret.extensions doesn't support `.mts` files
-    for (const extension of [
-      '.js',
-      '.mts',
-      ...Object.keys(interpret.extensions),
-    ]) {
-      const pathToConfig = path.resolve(dir, `forge.config${extension}`);
-      if (await fs.pathExists(pathToConfig)) {
-        // Use rechoir to parse alternative syntaxes (except for TypeScript where we use jiti)
-        if (!['.cts', '.mts', '.ts'].includes(extension)) {
-          rechoir.prepare(interpret.extensions, pathToConfig, dir);
-        }
-        forgeConfig = `forge.config${extension}`;
-        break;
-      }
-    }
-  }
-  forgeConfig = forgeConfig || ({} as ForgeConfig);
-
-  if (await forgeConfigIsValidFilePath(dir, forgeConfig)) {
-    const forgeConfigPath = path.resolve(dir, forgeConfig as string);
-    try {
-      let loadFn;
-      if (['.cts', '.mts', '.ts'].includes(path.extname(forgeConfigPath))) {
-        const jiti = createJiti(__filename);
-        loadFn = jiti.import;
-      } else {
-        loadFn = dynamicImportMaybe;
-      }
-      // The loaded "config" could potentially be a static forge config, ESM module or async function
-      const loaded = (await loadFn(forgeConfigPath)) as MaybeESM<
-        ForgeConfig | AsyncForgeConfigGenerator
-      >;
-      const maybeForgeConfig = 'default' in loaded ? loaded.default : loaded;
-      forgeConfig =
-        typeof maybeForgeConfig === 'function'
-          ? await maybeForgeConfig()
-          : maybeForgeConfig;
-    } catch (err) {
-      console.error(`Failed to load: ${forgeConfigPath}`);
-      throw err;
-    }
-  } else if (typeof forgeConfig !== 'object') {
-    throw new Error(
-      'Expected packageJSON.config.forge to be an object or point to a requirable JS file',
-    );
-  }
-  const defaultForgeConfig = {
-    rebuildConfig: {},
-    packagerConfig: {},
-    makers: [],
-    publishers: [],
-    plugins: [],
-  };
-  let resolvedForgeConfig: ResolvedForgeConfig = {
-    ...defaultForgeConfig,
-    ...forgeConfig,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    pluginInterface: null as any,
-  };
-
-  const templateObj = { ...packageJSON, year: new Date().getFullYear() };
-  renderConfigTemplate(dir, templateObj, resolvedForgeConfig);
-
-  resolvedForgeConfig.pluginInterface = await PluginInterface.create(
-    dir,
-    resolvedForgeConfig,
-  );
-
-  resolvedForgeConfig = await runMutatingHook(
-    resolvedForgeConfig,
-    'resolveForgeConfig',
-    resolvedForgeConfig,
-  );
-
-  return proxify<ResolvedForgeConfig>(
-    resolvedForgeConfig.buildIdentifier || '',
-    resolvedForgeConfig,
-    'ELECTRON_FORGE',
-  );
+    throw new Error("STUB");
 };

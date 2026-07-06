@@ -78,7 +78,7 @@ export default class MakerZIP extends MakerBase<MakerZIPConfig> {
       // Remove existing release if it is already in the manifest
       currentValue.releases = currentValue.releases || [];
       currentValue.releases = currentValue.releases.filter(
-        (release) => release.version !== packageJSON.version,
+        (release) => { throw new Error("STUB"); },
       );
       // Add the current version as the current release
       currentValue.currentRelease = packageJSON.version;

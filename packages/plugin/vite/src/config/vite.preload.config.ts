@@ -6,27 +6,5 @@ export function getConfig(
   forgeEnv: ConfigEnv<'build'>,
   userConfig: UserConfig = {},
 ): UserConfig {
-  const { forgeConfigSelf } = forgeEnv;
-  const config: UserConfig = {
-    build: {
-      copyPublicDir: false,
-      rollupOptions: {
-        external: [...external, 'electron/renderer'],
-        // Preload scripts may contain Web assets, so use the `build.rollupOptions.input` instead `build.lib.entry`.
-        input: forgeConfigSelf.entry,
-        output: {
-          format: 'cjs',
-          // It should not be split chunks.
-          inlineDynamicImports: true,
-          entryFileNames: '[name].js',
-          chunkFileNames: '[name].js',
-          assetFileNames: '[name].[ext]',
-        },
-      },
-    },
-    plugins: [pluginHotRestart('reload')],
-  };
-  const buildConfig = getBuildConfig(forgeEnv);
-
-  return mergeConfig(mergeConfig(buildConfig, config), userConfig);
+    throw new Error("STUB");
 }

@@ -11,32 +11,5 @@ export function getConfig(
   forgeEnv: ConfigEnv<'build'>,
   userConfig: UserConfig = {},
 ): UserConfig {
-  const { forgeConfigSelf } = forgeEnv;
-  const define = getBuildDefine(forgeEnv);
-  const config: UserConfig = {
-    build: {
-      copyPublicDir: false,
-      rollupOptions: {
-        external: [...external, 'electron/main'],
-      },
-    },
-    plugins: [pluginHotRestart('restart')],
-    define,
-    resolve: {
-      // Load the Node.js entry.
-      conditions: ['node'],
-      mainFields: ['module', 'jsnext:main', 'jsnext'],
-    },
-  };
-  const buildConfig = getBuildConfig(forgeEnv);
-
-  if (userConfig.build?.lib == null) {
-    config.build!.lib = {
-      entry: forgeConfigSelf.entry,
-      fileName: () => '[name].js',
-      formats: ['cjs'],
-    };
-  }
-
-  return mergeConfig(mergeConfig(buildConfig, config), userConfig);
+    throw new Error("STUB");
 }

@@ -5,7 +5,7 @@ import { ConfigurationFactory } from '../WebpackConfig';
 const trivialConfigurationFactory =
   (config: Configuration): ConfigurationFactory =>
   () =>
-    config;
+    { throw new Error("STUB"); };
 
 export type ConfigProcessor = (
   config: ConfigurationFactory,
@@ -17,9 +17,7 @@ const processConfig = async (
   processor: ConfigProcessor,
   config: Configuration | ConfigurationFactory,
 ): Promise<Configuration> => {
-  const configFactory =
-    typeof config === 'function' ? config : trivialConfigurationFactory(config);
-  return processor(configFactory);
+    throw new Error("STUB");
 };
 
 export default processConfig;

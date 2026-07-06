@@ -13,11 +13,11 @@ export type PackageJSON = Record<string, unknown> & {
 };
 
 async function runNPM(dir: string, ...args: string[]) {
-  await spawn('npm', args, { cwd: dir });
+    throw new Error("STUB");
 }
 
 export async function runNPMInstall(dir: string, ...args: string[]) {
-  await runNPM(dir, 'install', ...args);
+    throw new Error("STUB");
 }
 
 export async function ensureModulesInstalled(
@@ -25,30 +25,17 @@ export async function ensureModulesInstalled(
   deps: string[],
   devDeps: string[],
 ): Promise<void> {
-  await runNPMInstall(dir, ...deps);
-  await runNPMInstall(dir, '--save-dev', ...devDeps);
+    throw new Error("STUB");
 }
 
 let dirID = Date.now();
 
 export async function ensureTestDirIsNonexistent(): Promise<string> {
-  const dir = path.resolve(os.tmpdir(), `electron-forge-test-${dirID}`);
-  dirID += 1;
-  await fs.promises.rm(dir, { recursive: true, force: true });
-
-  return dir;
+    throw new Error("STUB");
 }
 
 export async function expectLintToPass(dir: string): Promise<void> {
-  try {
-    await runNPM(dir, 'run', 'lint');
-  } catch (err) {
-    if (err instanceof ExitError) {
-      console.error('STDOUT:', err.stdout.toString());
-      console.error('STDERR:', err.stderr.toString());
-    }
-    throw err;
-  }
+    throw new Error("STUB");
 }
 
 /**
@@ -60,16 +47,7 @@ export async function expectLintToPass(dir: string): Promise<void> {
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function mockRequire(mockedUri: string, stub: any) {
-  const { Module } = await import('module');
-
-  //@ts-expect-error undocumented functions
-  Module._load_original = Module._load;
-  //@ts-expect-error undocumented functions
-  Module._load = (uri, parent) => {
-    if (uri === mockedUri) return stub;
-    //@ts-expect-error undocumented functions
-    return Module._load_original(uri, parent);
-  };
+    throw new Error("STUB");
 }
 
 /**
@@ -85,12 +63,5 @@ export async function updatePackageJSON(
   dir: string,
   callback: (packageJSON: PackageJSON) => Promise<PackageJSON>,
 ) {
-  const packageJSON = await fs.readJson(path.resolve(dir, 'package.json'));
-  const mutated = await callback(JSON.parse(JSON.stringify(packageJSON)));
-  await fs.promises.writeFile(
-    path.resolve(dir, 'package.json'),
-    JSON.stringify(mutated, null, 2),
-    'utf-8',
-  );
-  return packageJSON;
+    throw new Error("STUB");
 }

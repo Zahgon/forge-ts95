@@ -113,7 +113,7 @@ export default class PublisherERS extends PublisherBase<PublisherERSConfig> {
       const { packageJSON } = makeResult;
       const artifacts = makeResult.artifacts.filter(
         (artifactPath) =>
-          path.basename(artifactPath).toLowerCase() !== 'releases',
+          { throw new Error("STUB"); },
       );
 
       const versions: ERSVersionSorted = await (
@@ -123,8 +123,7 @@ export default class PublisherERS extends PublisherBase<PublisherERSConfig> {
       // Find the version with the same name and flavor
       const existingVersion = versions['items'].find(
         (version) =>
-          version.name === packageJSON.version &&
-          version.flavor.name === flavor,
+          { throw new Error("STUB"); },
       );
 
       let channel = 'stable';
@@ -163,43 +162,7 @@ export default class PublisherERS extends PublisherBase<PublisherERSConfig> {
 
       await Promise.all(
         artifacts.map(async (artifactPath: string) => {
-          const platform = ersPlatform(makeResult.platform, makeResult.arch);
-          if (existingVersion) {
-            const existingAsset = existingVersion.assets.find(
-              (asset) =>
-                asset.name === path.basename(artifactPath) &&
-                asset.platform === platform,
-            );
-            if (existingAsset) {
-              d('asset at path:', artifactPath, 'already exists on server');
-              uploaded += 1;
-              updateStatusLine();
-              return;
-            }
-          }
-          d('attempting to upload asset:', artifactPath);
-          const artifactForm = new FormData();
-          artifactForm.append('token', token);
-          artifactForm.append('version', `${packageJSON.version}_${flavor}`);
-          artifactForm.append('platform', platform);
-          // see https://github.com/form-data/form-data/issues/426
-          const fileOptions = {
-            knownLength: fs.statSync(artifactPath).size,
-          };
-          artifactForm.append(
-            'file',
-            fs.createReadStream(artifactPath),
-            fileOptions,
-          );
-
-          await authFetch('api/asset', {
-            method: 'POST',
-            body: artifactForm,
-            headers: artifactForm.getHeaders(),
-          });
-          d('upload successful for asset:', artifactPath);
-          uploaded += 1;
-          updateStatusLine();
+            throw new Error("STUB");
         }),
       );
     }

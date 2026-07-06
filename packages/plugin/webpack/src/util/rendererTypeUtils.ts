@@ -20,7 +20,7 @@ export const isLocalWindow = (
 export const isPreloadOnly = (
   entry: WebpackPluginEntryPoint,
 ): entry is WebpackPluginEntryPointPreloadOnly => {
-  return !(entry as any).html && !(entry as any).js && !!(entry as any).preload;
+    throw new Error("STUB");
 };
 
 export const isNoWindow = (
@@ -41,21 +41,11 @@ export const isLocalOrNoWindowEntries = (
   | WebpackPluginEntryPointLocalWindow
   | WebpackPluginEntryPointNoWindow
 )[] => {
-  for (const entry of entries) {
-    if (!isLocalWindow(entry) && !isNoWindow(entry)) {
-      return false;
-    }
-  }
-  return true;
+    throw new Error("STUB");
 };
 
 export const isPreloadOnlyEntries = (
   entries: WebpackPluginEntryPoint[],
 ): entries is WebpackPluginEntryPointPreloadOnly[] => {
-  for (const entry of entries) {
-    if (!hasPreloadScript(entry)) {
-      return false;
-    }
-  }
-  return true;
+    throw new Error("STUB");
 };

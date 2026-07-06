@@ -11,34 +11,7 @@ export default class PublishState {
     directory: string,
     rootDir: string,
   ): Promise<PublishState[][]> {
-    if (!(await fs.pathExists(directory))) {
-      throw new Error(
-        `Attempted to load publish state from a missing directory: ${directory}`,
-      );
-    }
-
-    const publishes: PublishState[][] = [];
-    for (const dirName of await fs.readdir(directory)) {
-      const subDir = path.resolve(directory, dirName);
-      const states: PublishState[] = [];
-
-      if ((await fs.stat(subDir)).isDirectory()) {
-        const filePaths = (await fs.readdir(subDir))
-          .filter((fileName) => fileName.endsWith(EXTENSION))
-          .map((fileName) => path.resolve(subDir, fileName));
-
-        for (const filePath of filePaths) {
-          const state = new PublishState(filePath);
-          await state.load();
-          state.state.artifacts = state.state.artifacts.map((artifactPath) =>
-            path.resolve(rootDir, artifactPath),
-          );
-          states.push(state);
-        }
-      }
-      publishes.push(states);
-    }
-    return publishes;
+      throw new Error("STUB");
   }
 
   static async saveToDirectory(
@@ -46,21 +19,7 @@ export default class PublishState {
     artifacts: ForgeMakeResult[],
     rootDir: string,
   ): Promise<void> {
-    const id = crypto
-      .createHash('SHA256')
-      .update(JSON.stringify(artifacts))
-      .digest('hex');
-    for (const artifact of artifacts) {
-      artifact.artifacts = artifact.artifacts.map((artifactPath) =>
-        path.relative(rootDir, artifactPath),
-      );
-      const publishState = new PublishState(
-        path.resolve(directory, id, 'null'),
-        false,
-      );
-      publishState.state = artifact;
-      await publishState.saveToDisk();
-    }
+      throw new Error("STUB");
   }
 
   private dir: string;
@@ -78,21 +37,14 @@ export default class PublishState {
   }
 
   generateHash(): string {
-    const content = JSON.stringify(this.state || {});
-    return crypto.createHash('SHA256').update(content).digest('hex');
+      throw new Error("STUB");
   }
 
   async load(): Promise<void> {
-    this.state = await fs.readJson(this.path);
+      throw new Error("STUB");
   }
 
   async saveToDisk(): Promise<void> {
-    if (!this.hasHash) {
-      this.path = path.resolve(this.dir, `${this.generateHash()}${EXTENSION}`);
-      this.hasHash = true;
-    }
-
-    await fs.mkdirs(path.dirname(this.path));
-    await fs.writeJson(this.path, this.state);
+      throw new Error("STUB");
   }
 }

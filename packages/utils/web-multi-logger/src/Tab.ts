@@ -13,8 +13,7 @@ export default class Tab {
     public name: string,
     private ws: ews.Instance,
   ) {
-    this.id = idCounter;
-    idCounter += 1;
+      throw new Error("STUB");
   }
 
   /**
@@ -35,10 +34,6 @@ export default class Tab {
   }
 
   private toJSON() {
-    return {
-      id: this.id,
-      name: this.name,
-      logs: this.logs,
-    };
+      throw new Error("STUB");
   }
 }

@@ -63,16 +63,11 @@ export default abstract class Maker<C> implements IForgeMaker {
     private configOrConfigFetcher: C | ((arch: ForgeArch) => C) = {} as C,
     protected platformsToMakeOn?: ForgePlatform[],
   ) {
-    Object.defineProperty(this, '__isElectronForgeMaker', {
-      value: true,
-      enumerable: false,
-      configurable: false,
-    });
+      throw new Error("STUB");
   }
 
   get platforms(): ForgePlatform[] {
-    if (this.platformsToMakeOn) return this.platformsToMakeOn;
-    return this.defaultPlatforms;
+      throw new Error("STUB");
   }
 
   // TODO: Remove this, it is an eye-sore and is a nasty hack to provide forge
@@ -159,7 +154,7 @@ export default abstract class Maker<C> implements IForgeMaker {
    */
   externalBinariesExist(): boolean {
     return this.requiredExternalBinaries.every(
-      (binary) => which.sync(binary, { nothrow: true }) !== null,
+      (binary) => { throw new Error("STUB"); },
     );
   }
 

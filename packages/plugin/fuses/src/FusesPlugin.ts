@@ -28,34 +28,8 @@ export default class FusesPlugin extends PluginBase<FuseConfig> {
           platform,
           arch,
         ) => {
-          const { fusesConfig } = this;
-
-          const applePlatforms: ForgePlatform[] = ['darwin', 'mas'];
-
-          if (Object.keys(fusesConfig).length) {
-            const pathToElectronExecutable = getElectronExecutablePath({
-              appName: applePlatforms.includes(platform)
-                ? 'Electron'
-                : 'electron',
-              basePath: path.resolve(resourcesPath, '../..'),
-              platform,
-            });
-
-            const osxSignConfig = resolvedForgeConfig.packagerConfig.osxSign;
-            const hasOSXSignConfig =
-              (typeof osxSignConfig === 'object' &&
-                Boolean(Object.keys(osxSignConfig).length)) ||
-              Boolean(osxSignConfig);
-
-            await flipFuses(pathToElectronExecutable, {
-              resetAdHocDarwinSignature:
-                !hasOSXSignConfig &&
-                applePlatforms.includes(platform) &&
-                arch === 'arm64',
-              ...this.fusesConfig,
-            });
-          }
-        },
+              throw new Error("STUB");
+          },
         'Flipping Fuses',
       ),
     };
